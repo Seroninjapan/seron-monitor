@@ -198,12 +198,13 @@ export default function App() {
                   <span style={{ fontSize: 16, fontWeight: 700 }}>Featured</span>
                 </div>
                 <div onClick={() => { setSelMission(missions[0]); setScreen('detail') }} style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 24, cursor: 'pointer' }}>
-                  <div style={{ height: 200, background: 'linear-gradient(135deg, #0a1628 0%, #1a3a5c 40%, #2d6da8 100%)', position: 'relative' }}>
+                  <div style={{ height: 200, background: missions[0].images?.[0] ? 'none' : 'linear-gradient(135deg, #0a1628 0%, #1a3a5c 40%, #2d6da8 100%)', position: 'relative', overflow: 'hidden' }}>
+                    {missions[0].images?.[0] && <img src={missions[0].images[0]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 100%)' }}></div>
                     <div style={{ position: 'absolute', top: 14, left: 14 }}>
                       <span style={{ padding: '5px 12px', background: 'rgba(0,224,142,0.2)', border: '1px solid rgba(0,224,142,0.3)', borderRadius: 20, fontSize: 11, fontWeight: 600, color: C.accent }}>✦ Featured</span>
                     </div>
-                    <div style={{ position: 'absolute', top: 14, right: 14, fontSize: 36 }}>{getEmoji(missions[0].clients?.venue_type)}</div>
+                    {!missions[0].images?.[0] && <div style={{ position: 'absolute', top: 14, right: 14, fontSize: 36 }}>{getEmoji(missions[0].clients?.venue_type)}</div>}
                     <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
                       <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 4 }}>{missions[0].clients?.venue_name}</div>
                       <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 8 }}>{missions[0].clients?.area}</div>
@@ -238,9 +239,10 @@ export default function App() {
         {screen === 'detail' && selMission && (
           <div>
             <button onClick={() => nav('home')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: C.text2, border: 'none', background: 'none', cursor: 'pointer', padding: '12px 0' }}>← Back</button>
-            <div style={{ height: 220, background: 'linear-gradient(135deg, #1a0a00 0%, #4a2010 40%, #8B4513 100%)', borderRadius: 20, position: 'relative', overflow: 'hidden', marginBottom: 20 }}>
+            <div style={{ height: 220, background: selMission.images?.[0] ? 'none' : 'linear-gradient(135deg, #1a0a00 0%, #4a2010 40%, #8B4513 100%)', borderRadius: 20, position: 'relative', overflow: 'hidden', marginBottom: 20 }}>
+              {selMission.images?.[0] && <img src={selMission.images[0]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 100%)' }}></div>
-              <div style={{ position: 'absolute', top: 16, right: 16, fontSize: 44 }}>{getEmoji(selMission.clients?.venue_type)}</div>
+              {!selMission.images?.[0] && <div style={{ position: 'absolute', top: 16, right: 16, fontSize: 44 }}>{getEmoji(selMission.clients?.venue_type)}</div>}
               <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
                 <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: -1, marginBottom: 4 }}>{selMission.clients?.venue_name}</div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>📍 {selMission.clients?.area}, Osaka</div>
@@ -413,7 +415,10 @@ function MissionCard({ mission, onOpen, getEmoji, C }) {
   return (
     <div onClick={onOpen} style={{ display: 'flex', gap: 14, background: C.card, borderRadius: 16, padding: 14, marginBottom: 10, cursor: 'pointer', alignItems: 'center' }}>
       <div style={{ width: 80, height: 80, borderRadius: 12, background: 'linear-gradient(135deg, #1a0a00, #8B4513)', position: 'relative', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30 }}>
-        {getEmoji(mission.clients?.venue_type)}
+        {mission.images?.[0]
+          ? <img src={mission.images[0]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : getEmoji(mission.clients?.venue_type)
+        }
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>{mission.clients?.venue_name}</div>
