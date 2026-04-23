@@ -255,6 +255,17 @@ export default function App() {
               <div style={{ fontSize: 36 }}>🎁</div>
             </div>
 
+            {selMission.images?.length > 0 && (
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: C.text3, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>Photos</div>
+                <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+                  {selMission.images.map((url, i) => (
+                    <img key={i} src={url} style={{ width: 120, height: 90, borderRadius: 10, objectFit: 'cover', flexShrink: 0 }} />
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: C.text3, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>About this mission</div>
               <p style={{ fontSize: 15, lineHeight: 1.75, color: '#CCC' }}>{selMission.description}</p>
